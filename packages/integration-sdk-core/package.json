@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@jupiterone/data-model": "^0.61.3",
-    "@jupiterone/integration-sdk-entity-validator": "^13.1.2",
+    "@jupiterone/integration-sdk-entity-validator": "file:/Users/maaz.karim/Desktop/MaazInternship/sdk/j1_sdk/packages/integration-sdk-entity-validator",
     "@sinclair/typebox": "^0.32.30",
     "lodash": "^4.17.21"
   },

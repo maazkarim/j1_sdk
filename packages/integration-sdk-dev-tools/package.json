@@ -15,8 +15,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@jupiterone/integration-sdk-cli": "^13.1.2",
-    "@jupiterone/integration-sdk-testing": "^13.1.2",
+    "@jupiterone/integration-sdk-cli": "file:/Users/maaz.karim/Desktop/MaazInternship/sdk/j1_sdk/packages/integration-sdk-cli",
+    "@jupiterone/integration-sdk-testing": "file:/Users/maaz.karim/Desktop/MaazInternship/sdk/j1_sdk/packages/integration-sdk-testing",
     "@types/jest": "^29.5.3",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6.2.1",

@@ -307,10 +307,54 @@ export async function executeWithContext<
         },
       };
 
+      const fs = require('fs').promises;
+      const path = require('path');
+
+      const srcErrorsPath = path.join(
+        __dirname,
+        '../../../../../../../../../src/errors.json',
+      );
+      const destErrorsPath = path.join(
+        __dirname,
+        '../../../../../../../../../.j1-integration/errors.json',
+      );
+
+      try {
+        await fs.access(srcErrorsPath);
+        const data = await fs.readFile(srcErrorsPath, 'utf8');
+        const jsonData = JSON.parse(data);
+        await fs.unlink(srcErrorsPath);
+        await fs.writeFile(destErrorsPath, JSON.stringify(jsonData, null, 2));
+        logger.info(
+          'errors.json file moved and created in the current directory.',
+        );
+      } catch (error) {
+        if (error.code === 'ENOENT') {
+          logger.warn(
+            `No errors.json file found in the ${srcErrorsPath} directory.`,
+          );
+        } else {
+          throw error;
+        }
+      }
+
       await writeJsonToPath({
         path: 'summary.json',
         data: summary,
       });
+      const breakdownDir = 'summary_breakdown';
+
+      // Create the summary_breakdown directory if it doesn't exist
+      await fs.mkdir(breakdownDir, { recursive: true });
+
+      // Write each integrationStepResults entry to a separate file
+      for (const stepResult of summary.integrationStepResults) {
+        const stepResultPath = path.join(
+          breakdownDir,
+          `${stepResult.name}.json`,
+        );
+        await writeJsonToPath({ path: stepResultPath, data: stepResult });
+      }
 
       if (resultsCallback != null) {
         try {

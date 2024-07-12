@@ -147,6 +147,7 @@ export function executeStepDependencyGraph<
     endTime?: number;
     duration?: number;
     partialTypes?: string[];
+    errors?: string[]; // Add the errors parameter
   }) {
     const {
       stepId,
@@ -156,6 +157,7 @@ export function executeStepDependencyGraph<
       endTime,
       duration,
       partialTypes,
+      errors = [], // Default to an empty array if not provided
     } = params;
     const existingResult = stepResultsMap.get(stepId);
     if (existingResult) {
@@ -174,6 +176,9 @@ export function executeStepDependencyGraph<
         partialTypes: Array.from(
           new Set(existingResult.partialTypes.concat(partialTypes ?? [])),
         ),
+        errors: Array.from(
+          new Set((existingResult.errors ?? []).concat(errors)),
+        ), // To remove the duplicatesd
       });
     }
   }
@@ -253,6 +258,8 @@ export function executeStepDependencyGraph<
     }
   }
 
+  let errorMessages: string[] = [];
+
   return new Promise((resolve, reject) => {
     /**
      * If an unexpected error occurs during the execution of a step,
@@ -261,6 +268,7 @@ export function executeStepDependencyGraph<
      */
     function handleUnexpectedError(err: Error) {
       promiseQueue.pause();
+      errorMessages.push(err.message);
       reject(err);
     }
 
@@ -410,6 +418,7 @@ export function executeStepDependencyGraph<
           'Step summary',
         );
       } catch (err) {
+        errorMessages.push(err.message);
         const stepDuration = Date.now() - startTime;
         logger.info(
           {
@@ -437,6 +446,7 @@ export function executeStepDependencyGraph<
           // and move on with our lives!
           await context.jobState.waitUntilUploadsComplete();
         } catch (err) {
+          errorMessages.push(err.message);
           context.logger.stepFailure(step, err);
           status = StepResultStatus.FAILURE;
           if (err instanceof UploadError) {
@@ -453,6 +463,7 @@ export function executeStepDependencyGraph<
         endTime: Date.now(),
         duration: Date.now() - startTime,
         partialTypes: possibleAdditionalPartialTypes,
+        errors: errorMessages,
       });
       enqueueLeafSteps();
     }

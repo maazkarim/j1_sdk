@@ -113,6 +113,11 @@ export type IntegrationStepResult = Omit<
    * Duration of the step in milliseconds, calculated as endTime - startTime.
    */
   duration?: number;
+
+  /**
+   * Errors encountered.
+   */
+  errors?: string[];
 };
 
 export type IntegrationStep<

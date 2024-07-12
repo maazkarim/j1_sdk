@@ -4,7 +4,7 @@
   "description": "Automatically generated package.json, please edit manually",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JupiterOne/sdk"
+    "url": "https://github.com/maazkarim/j1_sdk"
   },
   "license": "UNLICENSED",
   "private": true,

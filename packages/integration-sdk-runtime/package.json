@@ -23,7 +23,7 @@
     "prepack": "npm run build:dist"
   },
   "dependencies": {
-    "@jupiterone/integration-sdk-core": "^13.1.2",
+    "@jupiterone/integration-sdk-core": "file:/Users/maaz.karim/Desktop/MaazInternship/sdk/j1_sdk/packages/integration-sdk-core",
     "@lifeomic/alpha": "^5.2.0",
     "@lifeomic/attempt": "^3.0.3",
     "async-sema": "^3.1.0",
@@ -40,7 +40,7 @@
     "rimraf": "^3.0.2"
   },
   "devDependencies": {
-    "@jupiterone/integration-sdk-private-test-utils": "^13.1.2",
+    "@jupiterone/integration-sdk-private-test-utils": "file:/Users/maaz.karim/Desktop/MaazInternship/sdk/j1_sdk/packages/integration-sdk-private-test-utils",
     "get-port": "^5.1.1",
     "lmdb": "^3.0.8",
     "memfs": "^3.2.0",
